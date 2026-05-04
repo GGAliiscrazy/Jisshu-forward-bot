@@ -1,12 +1,29 @@
-FROM python:3.8-slim-buster
 
-RUN apt update && apt upgrade -y
-RUN apt install git -y
-COPY requirements.txt /requirements.txt
+FROM python:3.10-slim
 
-RUN cd /
-RUN pip3 install -U pip && pip3 install -U -r requirements.txt
-RUN mkdir /fwdbot
-WORKDIR /fwdbot
-COPY start.sh /start.sh
-CMD ["/bin/bash", "/start.sh"] 
+# Prevent Python from buffering logs
+ENV PYTHONUNBUFFERED=1
+
+# Set working directory
+WORKDIR /Ultra-Forward-Bot
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first (for better caching)
+COPY requirements.txt .
+
+# Upgrade pip & install dependencies
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
+COPY . .
+
+# Expose port (if using Flask/FastAPI)
+EXPOSE 8000
+
+# Run both services properly
+CMD gunicorn app:app --bind 0.0.0.0:$PORT & python3 main.py
