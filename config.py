@@ -6,7 +6,7 @@ class Config:
     API_ID = environ.get("API_ID", "22620068")
     API_HASH = environ.get("API_HASH", "11e2c113078324f7e36688baa86c3911")
     BOT_TOKEN = environ.get("BOT_TOKEN", "7274390732:AAHq3xQfTtkckKAe-7vdkeYcyb4GkpY0QPY") 
-    BOT_OWNER_ID = [int(id) for id in environ.get("BOT_OWNER_ID", '6062527012').split()]
+    BOT_OWNER_ID = [int(id) for id in environ.get("BOT_OWNER_ID", '8784710932').split()]
     BOT_SESSION = environ.get("BOT_SESSION", "bot") 
 
     PICS = (environ.get('PICS', 'https://graph.org/file/e223aea8aca83e99162bb.jpg'))
